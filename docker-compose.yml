@@ -1,0 +1,23 @@
+---
+version: '3'
+services:
+
+  #Mongo database
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - dockerNet
+    volumes:
+      - "mongo-data:/data/db" #Volume location on `Host:Container` machine   
+
+volumes:
+  # Volume location on host machine is not specified. 
+  # Docker will create and manage these named volumes in a part of the host filesystem 
+  # which is managed by Docker (i.e., /var/lib/docker/volumes/ on Linux).
+  mongo-data: 
+networks:
+  dockerNet:
+    driver: bridge
