@@ -17,8 +17,9 @@ func makeMuxRouter() http.Handler {
 	muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
 	muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
-	muxRouter.HandleFunc("/definition/signin", handlerPutWord)
-	muxRouter.HandleFunc("/definition/welcome", handlerPutWord)
+	muxRouter.HandleFunc("/definition", handlerDeleteWord).Methods("DELETE")
+	muxRouter.HandleFunc("/", handlerSignIn)
+	muxRouter.HandleFunc("/welcome", handlerWelcome)
 	return muxRouter
 }
 
@@ -64,6 +65,10 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlerPutWord(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Not implemented yet putdef")
+}
+
+func handlerDeleteWord(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Not implemented yet putdef")
 }
 

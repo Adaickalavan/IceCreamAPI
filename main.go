@@ -18,6 +18,11 @@ var outputWriter io.Writer = os.Stdout
 
 var dictionary = database.Dictionary{}
 
+var users = map[string]string{
+	"user1": "password1",
+	"user2": "password2",
+}
+
 func init() {
 	//Load .env file
 	err := godotenv.Load()
