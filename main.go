@@ -16,13 +16,6 @@ import (
 var inputReader io.Reader = os.Stdin
 var outputWriter io.Writer = os.Stdout
 
-var dictionary = database.Dictionary{}
-
-var users = map[string]string{
-	"user1": "password1",
-	"user2": "password2",
-}
-
 func init() {
 	//Load .env file
 	err := godotenv.Load()
@@ -32,9 +25,22 @@ func init() {
 
 }
 
+
+var dictionary = database.Dictionary{}
+
+var users = map[string]string{
+	"user1": "password1",
+	"user2": "password2",
+}
+
+
 func main() {
 
+	//Connect to database
+	dictionary.Server = os.Getenv("MONGO_PORT")
+	dictionary.DatabaseName = os.Getenv("DATABASE_NAME")
 	dictionary.Session = dictionary.Connect()
+	//Ensure database index is unique
 	dictionary.EnsureIndex([]string{"value"})
 
 	if err := run(); err != nil {

@@ -28,8 +28,8 @@ func handlerSignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//Create a new session token
-	sessionToken := uuid.NewV4().STring()
+	// //Create a new session token
+	// sessionToken := uuid.NewV4().STring()
 
 }
 
