@@ -25,7 +25,6 @@ func init() {
 
 }
 
-
 var dictionary = database.Dictionary{}
 
 var users = map[string]string{
@@ -33,13 +32,14 @@ var users = map[string]string{
 	"user2": "password2",
 }
 
-
 func main() {
 
 	//Connect to database
 	dictionary.Server = os.Getenv("MONGO_PORT")
 	dictionary.DatabaseName = os.Getenv("DATABASE_NAME")
+	dictionary.CollectionName = os.Getenv("COLLECTION_NAME")
 	dictionary.Session = dictionary.Connect()
+	defer dictionary.Session.Close()
 	//Ensure database index is unique
 	dictionary.EnsureIndex([]string{"value"})
 

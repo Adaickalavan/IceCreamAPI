@@ -32,6 +32,7 @@ services:
     environment:
       - MONGO_PORT=mongo:27017  
       - DATABASE_NAME=product
+      - COLLECTION_NAME=icecream
 
 volumes:
   # Volume location on host machine is not specified. 
