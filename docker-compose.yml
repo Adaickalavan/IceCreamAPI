@@ -30,6 +30,7 @@ services:
     depends_on:
       - mongo
     environment:
+      - LISTENING_ADDR=8080
       - MONGO_PORT=mongo:27017  
       - DATABASE_NAME=product
       - COLLECTION_NAME=icecream

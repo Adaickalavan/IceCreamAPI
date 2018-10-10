@@ -14,3 +14,9 @@ Docker commands:
 Further extension of functionality and more description of the code will be proivded later.
 
 See [website](https://adaickalavan.github.io/portfolio/docker_golang_rest_kafka_mongodb/) for information.
+
+
+Need unrestricted connectivity to 
+1. Github
+2. Docker Hub
+3. 

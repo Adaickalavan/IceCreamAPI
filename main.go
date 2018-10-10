@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/joho/godotenv"
 )
 
@@ -25,7 +26,7 @@ func init() {
 
 }
 
-var dictionary = database.Dictionary{}
+var product = database.Product{}
 
 var users = map[string]string{
 	"user1": "password1",
@@ -35,13 +36,14 @@ var users = map[string]string{
 func main() {
 
 	//Connect to database
-	dictionary.Server = os.Getenv("MONGO_PORT")
-	dictionary.DatabaseName = os.Getenv("DATABASE_NAME")
-	dictionary.CollectionName = os.Getenv("COLLECTION_NAME")
-	dictionary.Session = dictionary.Connect()
-	defer dictionary.Session.Close()
+	product.Server = os.Getenv("MONGO_PORT")
+	product.DatabaseName = os.Getenv("DATABASE_NAME")
+	product.CollectionName = os.Getenv("COLLECTION_NAME")
+	product.Session = product.Connect()
+	defer product.Session.Close()
+
 	//Ensure database index is unique
-	dictionary.EnsureIndex([]string{"value"})
+	product.EnsureIndex([]string{"productID"})
 
 	if err := run(); err != nil {
 		log.Fatal(err.Error())
@@ -50,16 +52,17 @@ func main() {
 }
 
 func run() error {
+	httpAddr := os.Getenv("LISTENING_ADDR")
 	mux := makeMuxRouter()
-	httpAddr := os.Getenv("LISTENINGADDR")
-	log.Println("Listening on ", httpAddr)
+	loggedRouter := handlers.LoggingHandler(outputWriter, mux) //Wrap the mux router to log all api requests. Logged requests are written to outputWriter
 	s := &http.Server{
 		Addr:           ":" + httpAddr,
-		Handler:        mux,
+		Handler:        loggedRouter,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	log.Println("Listening on ", httpAddr)
 	if err := s.ListenAndServe(); err != nil {
 		return err
 	}
