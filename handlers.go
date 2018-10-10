@@ -13,6 +13,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+//Sign JWT with secret signingKey
+var signingKey = "signJwtUsingSecretKey"
+
 func makeMuxRouter() http.Handler {
 	muxRouter := mux.NewRouter()
 	muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
@@ -108,8 +111,6 @@ func createToken(w http.ResponseWriter, r *http.Request) {
 		},
 	)
 
-	//Sign JWT with secret signingKey
-	signingKey := "signJwtUsingSecretKey"
 	tokenString, err := token.SignedString([]byte(signingKey))
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
