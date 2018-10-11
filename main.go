@@ -54,7 +54,7 @@ func main() {
 func run() error {
 	httpAddr := os.Getenv("LISTENING_ADDR")
 	mux := makeMuxRouter()
-	loggedRouter := handlers.LoggingHandler(outputWriter, mux) //Wrap the mux router to log all api requests. Logged requests are written to outputWriter
+	loggedRouter := handlers.LoggingHandler(outputWriter, mux) //Wrap the mux router to log all api requests. Logged requests are written to `outputWriter`
 	s := &http.Server{
 		Addr:           ":" + httpAddr,
 		Handler:        loggedRouter,
