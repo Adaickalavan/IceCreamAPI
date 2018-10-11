@@ -19,4 +19,11 @@ See [website](https://adaickalavan.github.io/portfolio/docker_golang_rest_kafka_
 Need unrestricted connectivity to 
 1. Github
 2. Docker Hub
-3. 
+
+remember that product id must be unique or it will not be inserted
+
+database is unique by name and productid
+
+delete is done through name
+update is done trhough name
+no name will result in error while upadting

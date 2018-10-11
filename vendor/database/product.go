@@ -37,7 +37,7 @@ func (prod *Product) FindAll() ([]document.Icecream, error) {
 //FindByValue retrieves the Documents by its Value from Product
 func (prod *Product) FindByValue(value string) (document.Icecream, error) {
 	var doc document.Icecream
-	err := prod.c.Find(bson.M{"value": value}).One(&doc)
+	err := prod.c.Find(bson.M{"name": value}).One(&doc)
 	return doc, err
 }
 
@@ -47,16 +47,16 @@ func (prod *Product) Insert(doc document.Icecream) error {
 	return err
 }
 
-//Delete deletes the doc from Product
+//Delete deletes the Document from Product
 func (prod *Product) Delete(doc document.Icecream) error {
 	err := prod.c.Remove(&doc)
 	return err
 }
 
-//Update update the doc from Product
-func (prod *Product) Update(doc document.Icecream) error {
-	// err := prod.c.Remove(&doc)
-	// return err
+//Update updates the Document from Product
+func (prod *Product) Update(newdoc document.Icecream) error {
+	err := prod.c.Update(&doc, newdoc)
+	return err
 }
 
 func checkError(err error) bool {

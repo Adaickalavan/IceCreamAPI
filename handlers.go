@@ -78,6 +78,12 @@ func handlerPutDoc(w http.ResponseWriter, r *http.Request) {
 
 //Delete document from database
 func handlerDeleteDoc(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var doc document.Icecream
+	if err := 
+
+
+
 	fmt.Fprintln(w, "Not implemented yet putdef")
 }
 
