@@ -73,18 +73,40 @@ func handlerPostDoc(w http.ResponseWriter, r *http.Request) {
 
 //Update document in database
 func handlerPutDoc(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Not implemented yet putdef")
+	defer r.Body.Close()
+
+	var doc document.Icecream
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&doc); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	if err := product.Update(doc); err != nil{
+		respondWithError(w, http.StatusInternalServerError, "Unable to update: "+err.Error())
+		return
+	}
+
+	respondWithJSON(w, http.StatusAccepted, map[string]string{"Result": "Successfully updated"})
 }
 
 //Delete document from database
 func handlerDeleteDoc(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+
 	var doc document.Icecream
-	if err := 
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&doc); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
 
+	if err := product.Delete(doc); err != nil{
+		respondWithError(w, http.StatusInternalServerError, "Unable to update: "+err.Error())
+		return
+	}
 
-
-	fmt.Fprintln(w, "Not implemented yet putdef")
+	respondWithJSON(w, http.StatusAccepted, map[string]string{"Result": "Successfully deleted"})
 }
 
 //HTTP reply with error message
