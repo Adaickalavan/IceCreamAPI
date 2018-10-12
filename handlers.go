@@ -21,7 +21,7 @@ func makeMuxRouter() http.Handler {
 	muxRouter.HandleFunc("/definition", handlerGetDoc).Methods("GET")
 	muxRouter.HandleFunc("/definition", handlerPostDoc).Methods("POST")
 	muxRouter.HandleFunc("/definition", handlerPutDoc).Methods("PUT")
-	muxRouter.HandleFunc("/definition", handlerDeleteDoc).Methods("DELETE")
+	muxRouter.HandleFunc("/definition/", handlerDeleteDoc).Methods("DELETE")
 	muxRouter.HandleFunc("/login", createToken)
 	return muxRouter
 }

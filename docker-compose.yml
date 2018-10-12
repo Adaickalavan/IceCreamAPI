@@ -29,6 +29,7 @@ services:
       - dockerNet
     depends_on:
       - mongo
+      - seeddata
     environment:
       - LISTENING_ADDR=8080
       - MONGO_PORT=mongo:27017  
