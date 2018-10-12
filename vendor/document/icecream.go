@@ -4,7 +4,7 @@ import "gopkg.in/mgo.v2/bson"
 
 //Icecream properties
 type Icecream struct {
-	ID                    bson.ObjectId `bson:"_id" json:"id"`
+	ID                    bson.ObjectId `bson:"_id,omitempty" json:"id"`
 	Name                  string        `bson:"name" json:"name"`
 	ImageClosed           string        `bson:"image_closed" json:"image_closed"`
 	ImageOpen             string        `bson:"image_open" json:"image_open"`

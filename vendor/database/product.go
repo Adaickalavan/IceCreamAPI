@@ -55,6 +55,15 @@ func (prod *Product) Delete(value string) error {
 
 //Update updates the Document from Product
 func (prod *Product) Update(newdoc document.Icecream) error {
+	// If newdoc's ID field is empty, it will be set to the default value of `0` by Golang.
+	// However, bson.ObjectId must be 12 bytes long and cannot be zero.
+	// The zero value will cause error during `Update` function in MongoDB.
+	// Hence, we use `omitempty` in the bson tag of ID field in the document.Icecream structure.
+	// Now, if newdoc's ID field is empty, it will be ignored by `Update` function in MongoDB.
+	// Example:
+	// type Icecream struct {
+	// 		ID bson.ObjectId `bson:"_id,omitempty" json:"id"`
+	// }
 	err := prod.c.Update(bson.M{"name": newdoc.Name}, newdoc)
 	return err
 }
