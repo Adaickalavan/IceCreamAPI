@@ -28,10 +28,10 @@ func init() {
 
 var product = database.Product{}
 
-var users = map[string]string{
-	"user1": "password1",
-	"user2": "password2",
-}
+// var users = map[string]string{
+// 	"user1": "password1",
+// 	"user2": "password2",
+// }
 
 func main() {
 
@@ -43,7 +43,7 @@ func main() {
 	defer product.Session.Close()
 
 	//Ensure database index is unique
-	product.EnsureIndex([]string{"productID","name"})
+	product.EnsureIndex([]string{"productID", "name"})
 
 	if err := run(); err != nil {
 		log.Fatal(err.Error())

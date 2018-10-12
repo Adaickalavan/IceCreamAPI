@@ -1,17 +1,16 @@
 package main
 
 import (
-	"time"
 	"credentials"
 	"document"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/context"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -45,6 +44,7 @@ func handlerGetDocByID(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	respondWithJSON(w, http.StatusOK, doc)
 }
 
@@ -82,7 +82,7 @@ func handlerPutDoc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := product.Update(doc); err != nil{
+	if err := product.Update(doc); err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Unable to update: "+err.Error())
 		return
 	}
@@ -92,17 +92,10 @@ func handlerPutDoc(w http.ResponseWriter, r *http.Request) {
 
 //Delete document from database
 func handlerDeleteDoc(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-
-	var doc document.Icecream
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&doc); err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
-		return
-	}
-
-	if err := product.Delete(doc); err != nil{
-		respondWithError(w, http.StatusInternalServerError, "Unable to update: "+err.Error())
+	query := r.URL.Query()
+	err := product.Delete(query.Get("doc"))
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Unable to delete: "+err.Error())
 		return
 	}
 
@@ -127,9 +120,9 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 }
 
 type customClaims struct {
-	admin bool  `json:"admin"` //Set administrator rights
-	user  *credentials.User `json:"user"` //Set `User` properties
-	jwt.StandardClaims //Standard JWT claims
+	admin              bool              //Set administrator rights
+	user               *credentials.User //Set `User` properties
+	jwt.StandardClaims                   //Standard JWT claims
 }
 
 //Sign JWT with secret signingKey
@@ -147,22 +140,21 @@ func createToken(w http.ResponseWriter, r *http.Request) {
 
 	//Form the claims (payload) of the token
 	claims := customClaims{
-		admin: true
-		user: &user
-		jwt.StandardClaims:jwt.StandardClaims{
-			ExpiresAt : time.Now().Add(time.Minute*80).Unix(), //Token validity period
-			Issuer: "icecreamapi",
+		admin: true,
+		user:  &user,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Minute * 80).Unix(), //Token validity period
+			Issuer:    "icecreamapi",
 		},
 	}
 
 	//Create JWT with signing method and claims(i.e. payload)
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256, //Type of jwt.SigningMethodHS256 is *jwt.SigningMethodHMAC
-		claims
-	)
+		claims)
 
-	fmt.Println("Token struct==",token)
-	fmt.Println("Token struct==",&token)
+	fmt.Println("Token struct==", token)
+	fmt.Println("Token struct==", &token)
 
 	// Sign token with key
 	tokenString, err := token.SignedString([]byte(signingKey))
@@ -186,7 +178,7 @@ func authenticate(next http.HandlerFunc) http.HandlerFunc {
 		tokens, ok := r.Header["Authorization"]
 		if ok && len(tokens) >= 1 {
 			tokenString = tokens[0]
-			tokenString = strings.TrimPrefix(token, "Bearer ")
+			tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 		}
 
 		//Token is empty
@@ -197,16 +189,16 @@ func authenticate(next http.HandlerFunc) http.HandlerFunc {
 
 		//Parse takes the token string and a function for looking up the key.
 		parsedToken, err := jwt.Parse(
-			tokenString, 
+			tokenString,
 			func(token *jwt.Token) (interface{}, error) {
 				//Verify the signing algorithm by using interface type assertion
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 					return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 				}
 				return signingKey, nil
-			}
+			},
 		)
-		if err != nil{
+		if err != nil {
 			value, ok := err.(*jwt.ValidationError)
 			switch {
 			case ok && (value.Errors&jwt.ValidationErrorMalformed != 0):
@@ -220,8 +212,8 @@ func authenticate(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		//Check token validity and token claims, and call the `next` function
-		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			next(w,r)
+		if _, ok := parsedToken.Claims.(jwt.MapClaims); ok && parsedToken.Valid {
+			next(w, r)
 			return
 		}
 		respondWithError(w, http.StatusUnauthorized, "Token claims are not dechiperable and/or token is invalid")

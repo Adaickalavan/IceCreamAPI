@@ -48,14 +48,14 @@ func (prod *Product) Insert(doc document.Icecream) error {
 }
 
 //Delete deletes the Document from Product
-func (prod *Product) Delete(doc document.Icecream) error {
-	err := prod.c.Remove(&doc)
+func (prod *Product) Delete(value string) error {
+	err := prod.c.Remove(bson.M{"name": value})
 	return err
 }
 
 //Update updates the Document from Product
 func (prod *Product) Update(newdoc document.Icecream) error {
-	err := prod.c.Update(&doc, newdoc)
+	err := prod.c.Update(bson.M{"name": newdoc.Name}, newdoc)
 	return err
 }
 
