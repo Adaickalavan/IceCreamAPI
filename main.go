@@ -23,7 +23,6 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
 
 var product = database.Product{}
@@ -71,3 +70,9 @@ func checkError(err error) bool {
 	}
 	return false
 }
+
+//TODO
+//JW Token Refresh
+//Hash the password
+//Secure the MongoDB connection
+//Documentation

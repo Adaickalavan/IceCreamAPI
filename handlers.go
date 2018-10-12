@@ -14,11 +14,11 @@ import (
 
 func makeMuxRouter() http.Handler {
 	muxRouter := mux.NewRouter()
-	muxRouter.HandleFunc("/definition/", credentials.Authenticate(handlerGetDocByID)).Methods("GET")
-	muxRouter.HandleFunc("/definition", credentials.Authenticate(handlerGetDoc)).Methods("GET")
-	muxRouter.HandleFunc("/definition", credentials.Authenticate(handlerPostDoc)).Methods("POST")
-	muxRouter.HandleFunc("/definition", credentials.Authenticate(handlerPutDoc)).Methods("PUT")
-	muxRouter.HandleFunc("/definition/", credentials.Authenticate(handlerDeleteDoc)).Methods("DELETE")
+	muxRouter.HandleFunc("/product/", credentials.Authenticate(handlerGetDocByID)).Methods("GET")
+	muxRouter.HandleFunc("/product", credentials.Authenticate(handlerGetDoc)).Methods("GET")
+	muxRouter.HandleFunc("/product", credentials.Authenticate(handlerPostDoc)).Methods("POST")
+	muxRouter.HandleFunc("/product", credentials.Authenticate(handlerPutDoc)).Methods("PUT")
+	muxRouter.HandleFunc("/product/", credentials.Authenticate(handlerDeleteDoc)).Methods("DELETE")
 	muxRouter.HandleFunc("/login", credentials.CreateToken(login)).Methods("POST")
 	return muxRouter
 }

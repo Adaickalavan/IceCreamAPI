@@ -33,7 +33,7 @@ func login(loginInfo credentials.LoginInfo) (jwt.Claims, error) {
 		admin: true,
 		name:  loginInfo.Name,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Minute * 3).Unix(), //Token validity period
+			ExpiresAt: time.Now().Add(time.Minute * 5).Unix(), //Token validity period
 			Issuer:    "HomeBase",
 		},
 	}
