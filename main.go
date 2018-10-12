@@ -28,11 +28,6 @@ func init() {
 
 var product = database.Product{}
 
-// var users = map[string]string{
-// 	"user1": "password1",
-// 	"user2": "password2",
-// }
-
 func main() {
 
 	//Connect to database
@@ -49,7 +44,6 @@ func main() {
 	if err := run(); err != nil {
 		log.Fatal(err.Error())
 	}
-
 }
 
 func run() error {
