@@ -8,9 +8,12 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-//Contains a list of authorised "username:password"
+//Contains a list of authorised "username:credentials.LoginHash"
 var adminDatabase = map[string]credentials.LoginHash{
-	"user1": credentials.LoginHash{Name: "user1", HashedPwd: []byte("defre")},
+	"user1": credentials.LoginHash{
+		Name:      "user1",
+		HashedPwd: []byte("$2a$08$67iAYpKAVCygeyf1mqzOzueitZw.Umk/HczdsLm16Qi547/gbbgg."),
+	},
 }
 
 type customClaims struct {

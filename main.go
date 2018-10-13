@@ -72,7 +72,5 @@ func checkError(err error) bool {
 }
 
 //TODO
-//JW Token Refresh
-//Hash the password
 //Secure the MongoDB connection
 //Documentation

@@ -25,6 +25,12 @@ services:
     image: icecream
     ports:
       - "8080:8080"
+      # When docker-compose is run in Windows 10 with Hyper-V
+      # go to "localhost:8080/" to interact with the app.
+      # When docker-compose is run using Docker Toolbox
+      # go to "192.168.99.100:8080/" to interact with the app.
+      # "192.168.99.100" is the ip address of your docker-machine.
+      # Execute `$ docker-machine ip` to get ip address of your docker-machine.
     networks:
       - dockerNet
     depends_on:
@@ -44,10 +50,3 @@ volumes:
 networks:
   dockerNet:
     driver: bridge
-
-# When docker-compose is run in Windows 10 with Hyper-V
-# go to "localhost:8080/definition" to see the output.
-# When docker-compose is run using Docker Toolbox
-# go to "192.168.99.100:8080/definition" to see the output.
-# "192.168.99.100" is the ip address of your docker-machine.
-# Execute `$ docker-machine ip` to get ip address of your docker-machine.
