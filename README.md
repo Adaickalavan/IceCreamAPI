@@ -29,3 +29,5 @@ update is done trhough name
 no name will result in error while upadting
 
 We will be using the bcrypt algorithm to hash and salt our passwords.
+
+for automated docker build
