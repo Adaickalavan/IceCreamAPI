@@ -73,11 +73,11 @@ project                               # assumed to be located at C:/goWorkspace/
         │   │   └── icecream.go       # element of heap
         │   └── handler               # dependant package `pretty`  
         │       └── respond.go        # pretty prints array, slice, string
-        ├── Docker-compose.yml
-        ├── Dockerfile
-        ├── handlers.go               # unit tests of the carpark.go code
+        ├── Docker-compose.yml        # docker-compose to compose 3 services: MongoDB, SeedData, and Icecream api
+        ├── Dockerfile                # dockerfile to build Icecream CRUD api image
+        ├── handlers.go               # handlers for RESTful opeartion
         ├── main.go                   # main file of Go code
-        └── verify.txt                # sample interactive input for testing
+        └── verify.go                 # verify login info and obtain claims/payload
 ```
 
 ## Notes on solution
