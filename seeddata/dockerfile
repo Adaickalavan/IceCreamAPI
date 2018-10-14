@@ -1,5 +1,5 @@
 #Start from a Debian image with the latest version of Mongo
-FROM mongo
+FROM mongo:latest
 
 #Author
 LABEL Author Adaickalavan Meiyappan
@@ -8,8 +8,11 @@ LABEL Author Adaickalavan Meiyappan
 COPY icecream.json /icecream.json
 
 #Import seed data from json file into Mongo database
-CMD mongoimport --host mongo --db product --collection icecream --type json --file /icecream.json --jsonArray
+CMD mongoimport --host mongo -u $MONGO_USERNAME -p $MONGO_PASSWORD --authenticationDatabase $MONGO_AUTHDB --db product --collection icecream --type json --file /icecream.json --jsonArray
 # --host : specifies a resolvable hostname for mongo database to which to connect to
+# -u : username to access the MongoDB database
+# -p : password to access the MongoDB database
+# --authenticationDatabase : Specifies the database in which the user is created
 # --db : specifies the name of database on which to run the mongoimport
 # --collection : specifies the collection to import to
 # --type : specifies the file type to import

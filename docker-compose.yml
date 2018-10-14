@@ -8,6 +8,9 @@ services:
     container_name: mongo
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin1 #Username to access the database
+      - MONGO_INITDB_ROOT_PASSWORD=abcd #Password to access the database
     networks:
       - dockerNet
     volumes:
@@ -16,12 +19,19 @@ services:
   #Seed database
   seeddata:
     image: seeddata
+    environment:
+      - MONGO_USERNAME=admin1
+      - MONGO_PASSWORD=abcd
+      - MONGO_AUTHDB=admin
+    depends_on:
+      - mongo
+    restart: on-failure
     networks:
       - dockerNet
 
   #Icecream api
   icecream:
-    container_name: 'icecream'
+    container_name: icecream
     image: icecream
     ports:
       - "8080:8080"
@@ -39,6 +49,8 @@ services:
     environment:
       - LISTENING_ADDR=8080
       - MONGO_PORT=mongo:27017  
+      - MONGO_USERNAME=admin1
+      - MONGO_PASSWORD=abcd
       - DATABASE_NAME=product
       - COLLECTION_NAME=icecream
 
