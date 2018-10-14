@@ -87,3 +87,8 @@ project                               # assumed to be located at C:/goWorkspace/
 
 2. **Complexity**
     + To pars
+
+
+JWT authenticated REST api to perform CRUD operations on a pre-seeded MongoDB of various ice creams
+
+Pre-load seed data into MongoDB for the icecreamapi docker hub image
