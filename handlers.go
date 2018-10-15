@@ -19,7 +19,7 @@ func makeMuxRouter() http.Handler {
 	muxRouter.HandleFunc("/product", credentials.Authenticate(handlerPostDoc)).Methods("POST")
 	muxRouter.HandleFunc("/product", credentials.Authenticate(handlerPutDoc)).Methods("PUT")
 	muxRouter.HandleFunc("/product/", credentials.Authenticate(handlerDeleteDoc)).Methods("DELETE")
-	muxRouter.HandleFunc("/login", credentials.CreateToken(login)).Methods("POST")
+	muxRouter.HandleFunc("/login", credentials.CreateToken(verify)).Methods("POST")
 	return muxRouter
 }
 

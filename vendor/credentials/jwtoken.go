@@ -29,20 +29,20 @@ type jwToken struct {
 var signingKey = []byte("signJwtUsingSecretKey")
 
 //CreateToken creates JSON web token for users
-func CreateToken(next func(LoginInfo) (jwt.Claims, error)) http.HandlerFunc {
+func CreateToken(next func(Login) (jwt.Claims, error)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		//Decode client response into LoginInfo struct
-		var loginInfo LoginInfo
+		var login Login
 		decoder := json.NewDecoder(r.Body)
-		if err := decoder.Decode(&loginInfo); err != nil {
+		if err := decoder.Decode(&login); err != nil {
 			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 			return
 		}
 
 		// Verify the login info with a database and obtain the
 		// claims(i.e., payload) for this particular webpage and user
-		claims, err := next(loginInfo)
+		claims, err := next(login)
 		if err != nil {
 			handler.RespondWithError(w, http.StatusUnauthorized, "Failed to login: "+err.Error())
 			return
