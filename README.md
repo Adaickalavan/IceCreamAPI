@@ -133,28 +133,28 @@ A JSON Web Token (JWT) authenticated REST API, to perform CRUD operations on a p
 The project structure is as follows:
 
 ```txt
-project                               # assumed to be located at C:/goWorkspace/
-└── src                               #
-    └── icecreamapi                   # main folder
-        ├── seeddata                  # special folder to import initial data into MongoDB
-        │   ├── Dockerfile            # dockerfile for building image to seed data into MongoDB
-        │   └── icecream.json         # seed data
-        ├── vendor                    # folder containing dependencies
-        │   ├── credentials           # dependant package `credentials`  
-        │   │   ├── jwtoken.go        # create and authenticate JWT
-        │   │   └── login.go          # hash and compare login passwords
-        │   ├── database              # dependant package `database`  
-        │   │   ├── connection.go     # generic, reusable, database connection function
-        │   │   └── product.go        # database CRUD operations
-        │   ├── document              # dependant package `document`  
-        │   │   └── icecream.go       # define the `icecream` document to be stored in the MongoDB
-        │   └── handler               # dependant package `handler`  
-        │       └── respond.go        # generic, reusable, http response functions
-        ├── Docker-compose.yml        # to compose 3 services: `mongo`, `seeddata`, and `icecream`
-        ├── Dockerfile                # dockerfile to build `icecream` api image
-        ├── handlers.go               # handlers for RESTful operation
-        ├── main.go                   # main file of Go code
-        └── verify.go                 # verify user login info and obtain claims/payload
+project                             # Assumed to be located at C:/goWorkspace/
+└── src                             #
+    └── icecreamapi                 # Main folder
+        ├── seeddata                # To import initial data into MongoDB
+        │   ├── Dockerfile          # To build image for initializing MongoDB
+        │   └── icecream.json       # Seed data
+        ├── vendor                  # Folder containing dependencies
+        │   ├── credentials         # Dependant package `credentials`  
+        │   │   ├── jwtoken.go      # Create and authenticate JWT
+        │   │   └── login.go        # Hash and compare login passwords
+        │   ├── database            # Dependant package `database`  
+        │   │   ├── connection.go   # Generic database connection function
+        │   │   └── product.go      # Database CRUD operations
+        │   ├── document            # Dependant package `document`  
+        │   │   └── icecream.go     # `icecream` document to be stored in MongoDB
+        │   └── handler             # Dependant package `handler`  
+        │       └── respond.go      # Generic http response functions
+        ├── Docker-compose.yml      # To compose 3 containerized services
+        ├── Dockerfile              # Dockerfile to build `icecream` api image
+        ├── handlers.go             # Handlers for RESTful operation
+        ├── main.go                 # Main file of Go code
+        └── verify.go               # Verify user login and obtain claims
 ```
 
 ## Notes on Solution
@@ -172,9 +172,10 @@ project                               # assumed to be located at C:/goWorkspace/
     + Only authorized users are able to access the REST endpoints to perform CRUD operations on the database.
     + Users are authenticated using JWT mechanism, as it is advantageous for scalability.
     + Currently, only one authenticated user is present: `{"name":"user1","password":"1234"}`. Passwords stored in the source code are hashed using bcrypt algorithm.
-    + Additionally, MongoDB access is protected with an username and password (`--username admin1 --password abcd --authenticationDatabase admin`).
+    + Additionally, MongoDB access is protected with an username and password.
+        + `--username admin1 --password abcd --authenticationDatabase admin`
 
 3. **Docker Notes**
-   + When docker-compose is run with Docker-Toolbox, go to `192.168.99.100:8080/` to interact with the application. `192.168.99.100` is the IP address of your docker-machine. Execute `$ docker-machine ip` to get IP address of your docker-machine.
+   + When docker-compose is run with Docker-Toolbox, go to `192.168.99.100:8080/` to interact with the application. `192.168.99.100` is the IP address of your docker-machine. Execute `docker-machine ip` to get IP address of your docker-machine.
    + To tear down all containers and stored volume: `docker-compose down -v`
    + To prune all dangling containers, networks, and build caches: `docker system prune`
