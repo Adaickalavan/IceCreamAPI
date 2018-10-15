@@ -7,7 +7,7 @@ A JSON Web Token (JWT) authenticated REST API, to perform CRUD operations on a p
 ## Instructions
 
 1. **Setup Docker**
-    + Install Docker following the instructions [here](https://docs.docker.com/docker-for-windows/) for Windows or [here](https://docs.docker.com/docker-for-mac/) for Mac.
+    + Install Docker following the instructions for [Windows](https://docs.docker.com/docker-for-windows/) or for [Mac](https://docs.docker.com/docker-for-mac/).
 
 2. **Source code**
     + Unzip `icecreamapi.zip` source code into a folder. For example, assume it is unzipped into `C:/goWorkspace/src/icecreamapi` folder.
@@ -18,7 +18,7 @@ A JSON Web Token (JWT) authenticated REST API, to perform CRUD operations on a p
         ```bash
         docker build -t "icecream" .
         ```
-    + Navigate to the `seeddata` subdirectory in the project folder, i.e. `C:/goWorkspace/src/icecreamapi/seeddata`, by executing:
+    + Navigate to the `seeddata` subdirectory in the project folder, i.e., `C:/goWorkspace/src/icecreamapi/seeddata`, by executing:
         ```bash
         cd seeddata/
         ```
@@ -27,15 +27,15 @@ A JSON Web Token (JWT) authenticated REST API, to perform CRUD operations on a p
         docker build -t "seeddata" .
         ```
 
-4. **Run Docker-Compose to Start IceCream API** *(requires internet connectivity)*
-    + In a bash terminal, navigate to the project folder, i.e. `C:/goWorkspace/src/icecreamapi`. Start the API by running docker-compose
+4. **Run Docker-Compose to Start IceCream Application** *(requires internet connectivity)*
+    + In a bash terminal, navigate to the project folder, i.e. `C:/goWorkspace/src/icecreamapi`. Start the application by running docker-compose.
         ```bash
         docker-compose up
         ```
 
 5. **Functional API Testing**
     + Use an API development environment tool such as [Postman](https://www.getpostman.com) to test the RESTful API endpoints.
-    + LOGIN into the `icecream` application by posting `name` and `password` in Postman. Currently, the API only has one authorized user with the below authentication details.
+    + LOGIN into the `icecream` application by posting `name` and `password` in Postman. Currently, the application only has one authorized user with the following authentication details.
         ```json
         POST http://localhost:8080/login
         BODY
@@ -47,7 +47,7 @@ A JSON Web Token (JWT) authenticated REST API, to perform CRUD operations on a p
         A JWT with a validity for 5 minutes, will be returned in the http response, such as:
         ```json
         {
-            "tokenString" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzkzMzYwNDEsImlzcyI6IkhvbWVCYXNlIn0.IRKNoD-oEM6j_oDt9DmURkvxYBXmVv76Nlmz_lnoMkU"
+            "tokenString": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Mzk1OTIxNDUsImlzcyI6IkhvbWVCYXNlIn0.r9JlDX_FmoPnRMzf_yox_oCw0Lj0Obyql2Liz8gpE10"
         }
         ```
         Please do not use the above token string in your testing as it has exceeded its 5 minutes validity period.
@@ -124,7 +124,7 @@ A JSON Web Token (JWT) authenticated REST API, to perform CRUD operations on a p
         ```
     + GET all products from the database.
         ```json
-        GET http://localhost:8080/product/
+        GET http://localhost:8080/product
         ```
         All products from the databse is returned in the http response in JSON format.
 
@@ -164,7 +164,7 @@ project                             # Assumed to be located at C:/goWorkspace/
    + MongoDB is used as the store database.
    + A server with REST endpoints listens at port `localhost:8080`.
    + The code is completely containerized for easy deployment, with 3 docker images. Namely,
-        + `mongo` - to create Mongo database. This image will be directly pulled via internet from the Docker Hub,
+        + `mongo` - to create Mongo database, this image will be directly pulled via internet from the Docker Hub,
         + `seeddata` - to initialize the database with seed data, and
         + `icecream` - for CRUD operations.
 
@@ -177,5 +177,5 @@ project                             # Assumed to be located at C:/goWorkspace/
 
 3. **Docker Notes**
    + When docker-compose is run with Docker-Toolbox, go to `192.168.99.100:8080/` to interact with the application. `192.168.99.100` is the IP address of your docker-machine. Execute `docker-machine ip` to get IP address of your docker-machine.
-   + To tear down all containers and stored volume: `docker-compose down -v`
+   + To tear down current containers and stored volume: `docker-compose down -v`
    + To prune all dangling containers, networks, and build caches: `docker system prune`

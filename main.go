@@ -13,6 +13,7 @@ import (
 var inputReader io.Reader = os.Stdin
 var outputWriter io.Writer = os.Stdout
 
+//Initialize icecream database
 var product = database.Product{}
 
 func main() {
@@ -52,6 +53,3 @@ func run() error {
 	}
 	return nil
 }
-
-//TODO
-//Documentation
