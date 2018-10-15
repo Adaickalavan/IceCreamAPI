@@ -7,21 +7,11 @@ import (
 	"net/http"
 	"os"
 	"time"
-
-	"github.com/joho/godotenv"
 )
 
 //Hooks that may be overridden for testing
 var inputReader io.Reader = os.Stdin
 var outputWriter io.Writer = os.Stdout
-
-func init() {
-	//Load .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
-}
 
 var product = database.Product{}
 
